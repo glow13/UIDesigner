@@ -256,6 +256,9 @@ std::string VirtualNode::emitAttributes(matjson::Value json, int indent) {
 	if (getChildrenCount() > 0 && json.get("children")) {
 		out += ind + ".children(";
 		for (auto& child : CCArrayExt<VirtualNode>(getChildren())) {
+			if (!typeinfo_cast<VirtualNode*>(child))
+				continue;
+
 			out += "\n" + child->emitCode(indent + 4);
 			if (out.back() == '\n')
 			    out.pop_back();
@@ -387,8 +390,10 @@ matjson::Value VirtualNode::exportJSON() {
 	}
 
 	std::vector<matjson::Value> vec;
-	for (auto& child : CCArrayExt<VirtualNode>(getChildren())) {
-		vec.push_back(child->exportJSON());
+	for (auto& child : CCArrayExt<CCNode>(getChildren())) {
+		if (auto vchild = typeinfo_cast<VirtualNode*>(child)) {
+			vec.push_back(vchild->exportJSON());
+		}
 	}
 
 	if (!vec.empty())
