@@ -51,7 +51,7 @@ namespace uidesigner {
         if (!spr || spr->getUserObject("geode.texture-loader/fallback"))
             spr = CCSprite::create(name.c_str());
 
-        if (spr->getUserObject("geode.texture-loader/fallback"))
+        if (!spr || spr->getUserObject("geode.texture-loader/fallback"))
             return nullptr;
 
         return spr;
