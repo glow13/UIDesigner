@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.2.0
+
+- Add Scrollable
+- Fix image import bug
+
 ## 1.1.1
 
 - Add store as variable

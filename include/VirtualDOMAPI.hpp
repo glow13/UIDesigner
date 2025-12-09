@@ -65,7 +65,6 @@ namespace uidesigner {
     }
 
     inline std::string fmtString(std::string const& str) {
-        // replace all backslash with double backslash, all newline with \n, all double quotes with \"
         std::string formatted;
         for (auto c : str) {
             switch (c) {

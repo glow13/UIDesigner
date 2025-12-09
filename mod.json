@@ -6,7 +6,7 @@
 	},
 	"id": "camila314.uidesigner",
 	"name": "UIDesigner",
-	"version": "v1.1.1",
+	"version": "v1.2.0",
 	"developer": "camila314",
 	"description": "Interface Builder for Geometry Dash UI, powered by DevTools",
 	"dependencies": [
