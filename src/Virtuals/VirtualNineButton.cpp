@@ -1,17 +1,17 @@
 #include <VirtualNode.hpp>
 #include <geode.devtools/include/API.hpp>
 
-class VirtualScale9Button : public VirtualNode, RegisterDOM<VirtualScale9Button, "Scale 9 Button"> {
+class VirtualNineButton : public VirtualNode, RegisterDOM<VirtualNineButton, "Nine Button"> {
 	std::string m_spriteName = "GJ_button_01.png";
 	bool m_frameDirty = false;
 
-	CCScale9Sprite* m_sprite = nullptr;
+	NineSlice* m_sprite = nullptr;
 public:
-	VirtualScale9Button() {
+	VirtualNineButton() {
 		setContentSize({ 150, 40 });
 		setAnchorPoint({ 0.5, 0.5 });
 		
-		m_sprite = CCScale9Sprite::create(m_spriteName.c_str());
+		m_sprite = NineSlice::create(m_spriteName.c_str());
 		m_sprite->setContentSize({ 150, 40 });
 		m_sprite->setLayoutOptions(AnchorLayoutOptions::create()->setAnchor(Anchor::Center));
 
@@ -31,7 +31,7 @@ public:
 	matjson::Value exportJSON() override {
 		auto obj = VirtualNode::exportJSON();
 
-		obj["type"] = "Scale 9 Button";
+		obj["type"] = "Nine Button";
 		obj["spriteName"] = m_spriteName;
 
 		return obj;
@@ -46,7 +46,7 @@ public:
 
 	std::string emitCode(int indent = 0) override {
 		std::string ind(indent, ' ');
-		std::string out = fmt::format("{}Build<CCScale9Sprite>::create(\"{}\")\n", ind, m_spriteName);
+		std::string out = fmt::format("{}Build<NineSlice>::create(\"{}\")\n", ind, m_spriteName);
 
 		matjson::Value preJson = matjson::Value::object();
 		auto json = exportJSON();
@@ -68,7 +68,7 @@ public:
 		if (m_frameDirty) {
 		    auto spr = CCSprite::create(m_spriteName.c_str());
 		    if (spr && !spr->getUserObject("geode.texture-loader/fallback")) {
-		    	m_sprite = CCScale9Sprite::create(m_spriteName.c_str());
+		    	m_sprite = NineSlice::create(m_spriteName.c_str());
 		    	m_sprite->setContentSize(getContentSize());
 		    	m_sprite->setLayoutOptions(AnchorLayoutOptions::create()->setAnchor(Anchor::Center));
 
@@ -96,7 +96,7 @@ VirtualNode* createLabel();
 $execute {
 	VirtualDOMManager::get()->registerType("Text Button", +[]() -> VirtualNode* {
 
-		auto btn = new VirtualScale9Button();
+		auto btn = new VirtualNineButton();
 		btn->setID("text-button");
 		auto label = createLabel();
 		label->setScale(0.8);

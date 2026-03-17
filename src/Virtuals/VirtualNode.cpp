@@ -307,10 +307,8 @@ matjson::Value VirtualNode::exportJSON() {
 	if (auto layout = getLayout()) {
 		matjson::Value layoutObj;
 
-		if (layout->isIgnoreInvisibleChildren())
-			layoutObj["ignoreInvisible"] = layout->isIgnoreInvisibleChildren();
-
 		if (auto axis = typeinfo_cast<AxisLayout*>(layout)) {
+			if (axis->isIgnoreInvisibleChildren()) layoutObj["ignoreInvisible"] = true;
 			layoutObj["type"] = "AxisLayout";
 			layoutObj["axis"] = static_cast<int>(axis->getAxis());
 			layoutObj["alignment"] = static_cast<int>(axis->getAxisAlignment());
@@ -478,10 +476,7 @@ void VirtualNode::importJSON(matjson::Value obj) {
 
 			layout = axis;
 		} else if (type == "AnchorLayout") {
-			auto anchor = AnchorLayout::create();
-			anchor->ignoreInvisibleChildren(layoutObj["ignoreInvisible"].asBool().unwrapOr(false));
-
-			layout = anchor;
+			layout = AnchorLayout::create();
 		}
 
 		setLayout(layout);

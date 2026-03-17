@@ -52,9 +52,9 @@ VirtualDOMManager::VirtualDOMManager() {
 				$async(=) {
 					auto json = co_await file::pick(file::PickMode::OpenFile, options);
 
-					if (!json.isOk())
+					if (!json.isOk() || !*json)
 						co_return;
-					auto data = file::readJson(json.unwrap());
+					auto data = file::readJson(**json);
 					if (!data.isOk())
 						co_return;
 					
@@ -71,10 +71,10 @@ VirtualDOMManager::VirtualDOMManager() {
 
 			if (devtools::button((char const*)u8"\ue967" " Export")) {
 				$async(manager, self, options) {
-					Result<std::filesystem::path> file = co_await file::pick(file::PickMode::SaveFile, options);
+					auto file = co_await file::pick(file::PickMode::SaveFile, options);
 
-					if (file.isOk()) {
-						if (file::writeToJson(file.unwrap(), self->exportJSON()).isErr()) {
+					if (file.isOk() && *file) {
+						if (file::writeToJson(**file, self->exportJSON()).isErr()) {
 							log::warn("Failed to export to {}", file.unwrap());
 						}
 					}
@@ -120,6 +120,8 @@ void VirtualDOMManager::registerType(std::string_view name, VirtualCreator ctor)
 
 VirtualNode* VirtualDOMManager::createFromJSON(matjson::Value obj) {
 	auto type = obj["type"].asString().unwrapOr("Node");
+	if (type == "Scale 9 Sprite") type = "Nine Slice"; // geode v5 migration
+	if (type == "Scale 9 Button") type = "Nine Button";
 	auto it = m_creators.find(type);
 
 	if (it != m_creators.end()) {
