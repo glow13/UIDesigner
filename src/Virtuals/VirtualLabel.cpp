@@ -1,12 +1,14 @@
 #include "VirtualRGBA.hpp"
 #include <geode.devtools/include/API.hpp>
 
+constexpr std::array alignments = {"Left", "Center", "Right"};
+
 class VirtualLabel : public VirtualRGBA, RegisterDOM<VirtualLabel, "Label"> {
     std::string m_text;
     std::string m_font;
     float m_kerning = 1.0;
     bool m_fontDirty;
-    CCTextAlignment m_alignment = kCCTextAlignmentLeft;
+    int m_alignment = kCCTextAlignmentLeft;
     bool m_breakWithoutSpace;
 
     auto tether() { return typeinfo_cast<CCLabelBMFont*>(m_tether.data()); }
@@ -27,7 +29,8 @@ public:
         m_fontDirty = devtools::property("Font File", m_font);
 
         devtools::property("Extra Kerning", m_kerning);
-        devtools::combo("Alignment", m_alignment, {"Left", "Center", "Right"});
+        std::vector alignmentNames(alignments.begin(), alignments.end());
+        devtools::combo("Alignment", m_alignment, alignmentNames);
         devtools::property("Break Without Space", m_breakWithoutSpace);
     }
 
@@ -39,7 +42,7 @@ public:
         obj["font"] = m_font;
 
         if (m_alignment != kCCTextAlignmentLeft)
-            obj["alignment"] = static_cast<int>(m_alignment);
+            obj["alignment"] = m_alignment;
         if (m_kerning != 0)
             obj["kerning"] = m_kerning;
         if (m_breakWithoutSpace)
@@ -85,7 +88,7 @@ public:
     void updateTether() override {
         tether()->setString(m_text.c_str());
         tether()->setExtraKerning(m_kerning);
-        tether()->setAlignment(m_alignment);
+        tether()->setAlignment(static_cast<CCTextAlignment>(m_alignment));
         tether()->setLineBreakWithoutSpace(m_breakWithoutSpace);
 
         if (m_fontDirty && FNTConfigLoadFile(m_font.c_str())) 

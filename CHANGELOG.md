@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.1
+
+- Port to Geode v5 (by [SorkoPiko](https://github.com/SorkoPiko))
+
 ## 1.2.0
 
 - Add Scrollable

@@ -2,7 +2,7 @@
 #include <geode.devtools/include/API.hpp>
 #include <Geode/ui/TextInput.hpp>
 
-constexpr std::array<char const*, 11> filters = {
+constexpr std::array filters = {
 	"Uint",
 	"Int",
 	"Float",
@@ -24,7 +24,7 @@ class VirtualTextInput : public VirtualNode, RegisterDOM<VirtualTextInput, "Text
 
 	std::string m_label = "";
 
-	CommonFilter m_commonFilter = CommonFilter::Any;
+	int m_commonFilter = static_cast<int>(CommonFilter::Any);
 	std::string m_filter;
 	bool m_customFilter = false;
 
@@ -60,7 +60,8 @@ class VirtualTextInput : public VirtualNode, RegisterDOM<VirtualTextInput, "Text
 			devtools::property("", m_filter);
 		} else {
 			devtools::sameLine();
-			devtools::combo("", m_commonFilter, filters);
+			std::vector filterNames(filters.begin(), filters.end());
+			devtools::combo("", m_commonFilter, filterNames);
 		}
 
 		devtools::nextItemWidth(100);
@@ -108,7 +109,7 @@ class VirtualTextInput : public VirtualNode, RegisterDOM<VirtualTextInput, "Text
 			m_filter = value["filter"].asString().unwrapOr("");
 			m_customFilter = true;
 		} else {
-			m_commonFilter = static_cast<CommonFilter>(value["filter"].asInt().unwrapOr(static_cast<int>(CommonFilter::Any)));
+			m_commonFilter = value["filter"].asInt().unwrapOr(static_cast<int>(CommonFilter::Any));
 			m_customFilter = false;
 		}
 
@@ -132,7 +133,7 @@ class VirtualTextInput : public VirtualNode, RegisterDOM<VirtualTextInput, "Text
 		if (m_customFilter) {
 			emitIf(m_filter, "", fmt::format("setFilter({})", fmtString(m_filter)));
 		} else {
-			emitIf(m_commonFilter, CommonFilter::Any, fmt::format("setCommonFilter(CommonFilter::{})", filters[static_cast<int>(m_commonFilter)]));
+			emitIf(static_cast<CommonFilter>(m_commonFilter), CommonFilter::Any, fmt::format("setCommonFilter(CommonFilter::{})", filters[m_commonFilter]));
 		}
 		emitIf(m_maxLength, 0, fmt::format("setMaxCharCount({})", m_maxLength));
 		emitIf(m_isPassword, false, "setPasswordMode(true)");
@@ -162,10 +163,10 @@ class VirtualTextInput : public VirtualNode, RegisterDOM<VirtualTextInput, "Text
 		tether->setPasswordMode(m_isPassword);
 		tether->setTextAlign(m_align);
 
-		if (static_cast<int>(m_commonFilter) == -1) {
+		if (m_commonFilter == -1) {
 			tether->setFilter(m_filter.c_str());
 		} else {
-			tether->setCommonFilter(m_commonFilter);
+			tether->setCommonFilter(static_cast<CommonFilter>(m_commonFilter));
 		}
 
 		tether->setWidth(getContentWidth());

@@ -1,12 +1,12 @@
 #include "VirtualRGBA.hpp"
 #include <geode.devtools/include/API.hpp>
 
-class VirtualScale9Sprite : public VirtualRGBA, RegisterDOM<VirtualScale9Sprite, "Scale 9 Sprite"> {
+class VirtualNineSlice : public VirtualRGBA, RegisterDOM<VirtualNineSlice, "Nine Slice"> {
     std::string m_spriteName = "GJ_square01.png";
     bool m_frameDirty;
 public:
-    VirtualScale9Sprite() : VirtualRGBA() {
-        m_tether = CCScale9Sprite::create(m_spriteName.c_str());
+    VirtualNineSlice() : VirtualRGBA() {
+        m_tether = NineSlice::create(m_spriteName.c_str());
         m_tether->setContentSize({100, 100});
         setContentSize({100, 100});
         setAnchorPoint({0.5, 0.5});
@@ -20,7 +20,7 @@ public:
     matjson::Value exportJSON() override {
         auto obj = VirtualRGBA::exportJSON();
 
-        obj["type"] = "Scale 9 Sprite";
+        obj["type"] = "Nine Slice";
         obj["spriteName"] = m_spriteName;
 
         return obj;
@@ -34,13 +34,13 @@ public:
             m_spriteName = "GJ_square01.png";
 
         
-        m_tether = CCScale9Sprite::create(m_spriteName.c_str());
+        m_tether = NineSlice::create(m_spriteName.c_str());
         VirtualRGBA::importJSON(obj);
     }
 
     std::string emitCode(int indent = 0) override {
         std::string ind(indent, ' ');
-        std::string out = fmt::format("{}Build<CCScale9Sprite>::create(\"{}\")\n", ind, m_spriteName);
+        std::string out = fmt::format("{}Build<NineSlice>::create(\"{}\")\n", ind, m_spriteName);
 
         out += VirtualRGBA::emitAttributes(exportJSON(), indent + 4);
 
@@ -51,7 +51,7 @@ public:
         if (m_frameDirty) {
             auto spr = CCSprite::create(m_spriteName.c_str());
             if (spr && !spr->getUserObject("geode.texture-loader/fallback")) {
-                replaceTether(CCScale9Sprite::create(m_spriteName.c_str()));
+                replaceTether(NineSlice::create(m_spriteName.c_str()));
             }
         }
 

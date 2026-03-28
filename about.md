@@ -12,9 +12,9 @@ This mod combined with [Geode DevTools](https://github.com/geode-sdk/devtools) p
 - Column Node
 - Color Box
 - Markdown Text Area
-- Scale9Sprite
+- NineSlice
 - Sprite Button
-- Scale9Sprite Button
+- NineSlice Button
 - Text Button
 - Text Input
 - Toggle
