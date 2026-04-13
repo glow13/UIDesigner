@@ -1,7 +1,7 @@
 #include <VirtualNode.hpp>
 #include <geode.devtools/include/API.hpp>
 
-class VirtualNineButton : public VirtualNode, RegisterDOM<VirtualNineButton, "Nine Button"> {
+class VirtualNineButton : public VirtualNode {
 	std::string m_spriteName = "GJ_button_01.png";
 	bool m_frameDirty = false;
 
@@ -108,4 +108,4 @@ $execute {
 	});
 };
 
-
+static RegisterDOM<VirtualNineButton, "Nine Button"> reg;

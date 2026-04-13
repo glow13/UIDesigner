@@ -35,7 +35,7 @@ using BaseSize = typename BaseEnums<T>::pair::first_type;
 template <BaseType T>
 using BaseColor = typename BaseEnums<T>::pair::second_type;
 
-class VirtualSpriteButton : public VirtualNode, RegisterDOM<VirtualSpriteButton, "Sprite Button"> {
+class VirtualSpriteButton : public VirtualNode {
 	/*std::tuple<
 		std::pair<CircleBaseSize, CircleBaseColor>,
 		std::pair<CrossBaseSize, CrossBaseColor>,
@@ -322,3 +322,5 @@ public:
 		m_innerSprite->setFlipY(m_flipY);
 	}
 };
+
+static RegisterDOM<VirtualSpriteButton, "Sprite Button">;

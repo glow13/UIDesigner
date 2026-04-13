@@ -3,7 +3,7 @@
 
 constexpr std::array alignments = {"Left", "Center", "Right"};
 
-class VirtualLabel : public VirtualRGBA, RegisterDOM<VirtualLabel, "Label"> {
+class VirtualLabel : public VirtualRGBA {
     std::string m_text;
     std::string m_font;
     float m_kerning = 1.0;
@@ -103,3 +103,5 @@ public:
 VirtualNode* createLabel() {
     return new VirtualLabel();
 }
+
+static RegisterDOM<VirtualLabel, "Label"> reg;

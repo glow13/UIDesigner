@@ -1,7 +1,7 @@
 #include "VirtualRGBA.hpp"
 #include <geode.devtools/include/API.hpp>
 
-class VirtualScrollable : public VirtualRGBA, RegisterDOM<VirtualScrollable, "Scrollable"> {
+class VirtualScrollable : public VirtualRGBA {
 	bool m_scrollEnabled = false;
 	bool m_vertical = true;
 	bool m_dirty = false;
@@ -100,3 +100,5 @@ public:
 		}
 	}
 };
+
+static RegisterDOM<VirtualScrollable, "Scrollable"> reg;

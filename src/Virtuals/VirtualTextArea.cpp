@@ -2,7 +2,7 @@
 #include <geode.devtools/include/API.hpp>
 #include <Geode/ui/MDTextArea.hpp>
 
-class VirtualTextArea : public VirtualNode, RegisterDOM<VirtualTextArea, "Text Area"> {
+class VirtualTextArea : public VirtualNode {
     std::string m_text;
 public:
     VirtualTextArea() : VirtualNode(), m_text("Hello <cr>World!</cr>") {
@@ -56,3 +56,5 @@ public:
         VirtualNode::updateTether();
     }
 };
+
+static RegisterDOM<VirtualTextArea, "Text Area"> reg;

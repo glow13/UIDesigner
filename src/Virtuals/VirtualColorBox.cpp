@@ -1,7 +1,7 @@
 #include "VirtualRGBA.hpp"
 #include <geode.devtools/include/API.hpp>
 
-class VirtualColorBox : public VirtualRGBA, RegisterDOM<VirtualColorBox, "Color Box"> {
+class VirtualColorBox : public VirtualRGBA {
 
 public:
     VirtualColorBox() : VirtualRGBA() {
@@ -25,3 +25,5 @@ public:
         return output;
     }
 };
+
+static RegisterDOM<VirtualColorBox, "Color Box"> reg;

@@ -2,7 +2,7 @@
 #include <Geode/Geode.hpp>
 #include <geode.devtools/include/API.hpp>
 
-class VirtualToggle : public VirtualNode, RegisterDOM<VirtualToggle, "Toggle"> {
+class VirtualToggle : public VirtualNode {
 	std::string m_onSprite = "GJ_checkOn_001.png";
 	std::string m_offSprite = "GJ_checkOff_001.png";
 	bool m_frameDirty = false;
@@ -99,3 +99,5 @@ class VirtualToggle : public VirtualNode, RegisterDOM<VirtualToggle, "Toggle"> {
  		m_tether->setScale(1.0);
  	}
 };
+
+static RegisterDOM<VirtualToggle, "Toggle"> reg;
