@@ -16,7 +16,7 @@ constexpr std::array filters = {
 	"Alphabetic"
 };
 
-class VirtualTextInput : public VirtualNode {
+class VirtualTextInput : public VirtualNode, RegisterDOM<VirtualTextInput, "Text Input"> {
 	std::string m_placeholder = "Enter text...";
 
 	std::string m_font = "bigFont.fnt";
@@ -175,5 +175,3 @@ class VirtualTextInput : public VirtualNode {
 		VirtualNode::updateTether();
 	}
 };
-
-static RegisterDOM<VirtualTextInput, "Text Input"> reg;

@@ -1,7 +1,7 @@
 #include "VirtualRGBA.hpp"
 #include <geode.devtools/include/API.hpp>
 
-class VirtualNineSlice : public VirtualRGBA {
+class VirtualNineSlice : public VirtualRGBA, RegisterDOM<VirtualNineSlice, "Nine Slice"> {
     std::string m_spriteName = "GJ_square01.png";
     bool m_frameDirty;
 public:
@@ -58,5 +58,3 @@ public:
         VirtualRGBA::updateTether();
     }
 };
-
-static RegisterDOM<VirtualNineSlice, "Nine Slice"> reg;

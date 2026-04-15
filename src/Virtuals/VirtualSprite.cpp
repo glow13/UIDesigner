@@ -1,7 +1,7 @@
 #include "VirtualRGBA.hpp"
 #include <geode.devtools/include/API.hpp>
 
-class VirtualSprite : public VirtualRGBA {
+class VirtualSprite : public VirtualRGBA, RegisterDOM<VirtualSprite, "Sprite"> {
     std::string m_spriteName = "GJ_lock_001.png";
     bool m_frameDirty;
 
@@ -81,5 +81,3 @@ public:
         tether()->setFlipY(m_flipY);
     }
 };
-
-static RegisterDOM<VirtualSprite, "Sprite"> reg;
