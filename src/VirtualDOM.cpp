@@ -49,7 +49,7 @@ VirtualDOMManager::VirtualDOMManager() {
 			}}};
 
 			if (devtools::button((char const*)u8"\ue92a" " Import")) {
-				$async(=) {
+				$async(&isRoot, &manager, &self, &options) {
 					auto json = co_await file::pick(file::PickMode::OpenFile, options);
 
 					if (!json.isOk() || !*json)
@@ -70,7 +70,7 @@ VirtualDOMManager::VirtualDOMManager() {
 			devtools::sameLine();
 
 			if (devtools::button((char const*)u8"\ue967" " Export")) {
-				$async(manager, self, options) {
+				$async(&self, &options) {
 					auto file = co_await file::pick(file::PickMode::SaveFile, options);
 
 					if (file.isOk() && *file) {
