@@ -30,7 +30,7 @@ class VirtualTextInput : public VirtualNode, RegisterDOM<VirtualTextInput, "Text
 
 	unsigned int m_maxLength = 0;
 	bool m_isPassword = false;
-	TextInputAlign m_align;
+	int m_align;
 
 	std::string m_value = "";
 	bool m_valueDirty = false;
@@ -68,7 +68,8 @@ class VirtualTextInput : public VirtualNode, RegisterDOM<VirtualTextInput, "Text
 		devtools::property("Max Length (0 = infinite)", m_maxLength);
 		devtools::property("Password", m_isPassword);
 
-		devtools::combo("Alignment", m_align, {"Center", "Left"});
+		const char* values[] = {"Center", "Left"};
+		devtools::combo("Alignment", m_align, values);
 	}
 
 	matjson::Value exportJSON() override {
@@ -115,7 +116,7 @@ class VirtualTextInput : public VirtualNode, RegisterDOM<VirtualTextInput, "Text
 
 		m_maxLength = static_cast<unsigned int>(value["maxLength"].asInt().unwrapOr(0));
 		m_isPassword = value["isPassword"].asBool().unwrapOr(false);
-		m_align = static_cast<TextInputAlign>(value["align"].asInt().unwrapOr(static_cast<int>(TextInputAlign::Center)));
+		m_align = value["align"].asInt().unwrapOr(static_cast<int>(TextInputAlign::Center));
 		m_value = value["value"].asString().unwrapOr("");
 	}
 
@@ -137,7 +138,7 @@ class VirtualTextInput : public VirtualNode, RegisterDOM<VirtualTextInput, "Text
 		}
 		emitIf(m_maxLength, 0, fmt::format("setMaxCharCount({})", m_maxLength));
 		emitIf(m_isPassword, false, "setPasswordMode(true)");
-		emitIf(m_align, TextInputAlign::Center, fmt::format("setTextAlign(TextInputAlign::{})", m_align == TextInputAlign::Center ? "Center" : "Left"));
+		emitIf(static_cast<TextInputAlign>(m_align), TextInputAlign::Center, fmt::format("setTextAlign(TextInputAlign::{})", static_cast<TextInputAlign>(m_align) == TextInputAlign::Center ? "Center" : "Left"));
 		emitIf(m_value, "", fmt::format("setString({})", fmtString(m_value)));
 		emitIf(getContentWidth(), 200.f, fmt::format("setWidth({}f)", fmtFloat(getContentWidth())));
 
@@ -161,7 +162,7 @@ class VirtualTextInput : public VirtualNode, RegisterDOM<VirtualTextInput, "Text
 		tether->setLabel(m_label.c_str());
 		tether->setMaxCharCount(m_maxLength);
 		tether->setPasswordMode(m_isPassword);
-		tether->setTextAlign(m_align);
+		tether->setTextAlign(static_cast<TextInputAlign>(m_align));
 
 		if (m_commonFilter == -1) {
 			tether->setFilter(m_filter.c_str());

@@ -22,7 +22,7 @@ namespace uidesigner {
         virtual void registerType(std::string_view name, VirtualCreator ctor);
         virtual VirtualNode* createFromJSON(matjson::Value);
 
-        template <std::derived_from<VirtualNode> T>
+        template <typename T>
         static int registerCreate(char const name[]) {
             VirtualDOMManager::get()->registerType(name, +[]() -> VirtualNode* { return new T(); });
             return 0;

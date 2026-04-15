@@ -2,8 +2,9 @@
 
 
 void example() {
+	const char* values[] = { "Item 1", "Item 2", "Item 3" };
 	int current = 0;
-	devtools::combo("Example Combo", current, { "Item 1", "Item 2", "Item 3" }, 5);
+	devtools::combo("Example Combo", current, values, 5);
 	devtools::newLine();
 	devtools::sameLine();
 	devtools::nextItemWidth(10);
@@ -12,6 +13,9 @@ void example() {
 	std::string a;
 	devtools::inputMultiline("a", a);
 
-	int b;
+	devtools::label("label");
+	devtools::button("button");
+
+	int b = 0;
 	devtools::radio("hi", b, b);
 }
